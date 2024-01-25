@@ -44,7 +44,7 @@ function loadView() {
                 window.location.href = path;
             }
         } else {
-            if (file.includes("profile.html") || file.includes("chordsEditor.html") || file.includes("favourites.html")) {
+            if (file.includes("profile.html") || file.includes("favourites.html")) {
                 // showToast({"success":false, "message":"User not logged in"});
                 // setTimeout(() => {
                 window.location.href = path + "/src/login.html";
@@ -56,7 +56,7 @@ function loadView() {
         document.getElementById("register").style.display = isLogged ? "none" : "inline";
         document.getElementById("profile").style.display = !isLogged ? "none" : "inline";
         document.getElementById("logout").style.display = !isLogged ? "none" : "inline";
-        document.getElementById("chordsEditor").style.display = !isLogged ? "none" : "inline";
+        document.getElementById("chordsEditor").style.display = "inline";
         document.getElementById("favourites").style.display = !isLogged ? "none" : "inline";
     })
     .catch(error => {
@@ -426,6 +426,7 @@ function loadChords() {
     .then(response => response.text())
     .then(response => JSON.parse(response))
     .then(baseChords => {
+        console.log(baseChords);
         if (baseChords.success) {
           baseChords.chords.forEach(chord => {
             createChordCard(chord.name, chord.acoustic_guitar, false);
@@ -442,16 +443,16 @@ function loadChords() {
                   createChordCard(chord.name, chord.acoustic_guitar, true);
                 });
             } else {
-                showToast(userChords);
+                // showToast(userChords);
             }
           })
           .catch(error => {
             console.log('Error', error);
           })
         } else {
-          showToast(baseChords);
-          isLogged = false;
-          window.location.href = path;
+        //   showToast(baseChords);
+        //   isLogged = false;
+        //   window.location.href = path;
         }
     })
     .catch(error => {
@@ -461,8 +462,36 @@ function loadChords() {
     let url = new URL(window.location.href);
     let chord = url.searchParams.get('chord'); 
     let name = url.searchParams.get('name'); 
+    let sequenceID = url.searchParams.get('sequenceID'); 
     if (chord != null && name != null && chord != undefined && name != undefined && chord != "" && name != "") {
         addChordToSequence(name, chord);
+    } else {
+        let req = {
+            "sequence_id": sequenceID,
+        }
+        if (sequenceID != null && sequenceID != undefined && sequenceID != "") {
+            fetch(path + '/api/chords/getSequenceContent.php', {
+                method: 'POST',
+                body: JSON.stringify(req),
+            })
+            .then(response => response.text())
+            .then(response => JSON.parse(response))
+            .then(data => {
+                let sequenceContent = JSON.parse(data.sequence.content);
+                console.log(data);
+                importChords(sequenceContent)
+                // if (data.success) {
+                //     data.chords.forEach(chord => {
+                //         createChordCard(chord.name, chord.acoustic_guitar, false, true);
+                //     });
+                // } else {
+                //     showToast(data);
+                // }
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            });
+        }
     }
 }
 
@@ -531,6 +560,44 @@ function addChord() {
     loadChords();
 }
 
+function importChords(chords) {
+    for (let i = 0; i < chords.length; i++) {
+        chords[i] = chords[i].split("-");
+        chords[i] = chords[i].filter(l => l != "");
+    }
+
+    chords = chords.filter(line => line.length > 0);
+
+    for (let i = 0; i < chords[0].length; i++) {
+        let chord = "";
+        let chordName = "";
+        for (let j = 1; j < chords.length; j++) {
+            if (chords[j][0] == '') continue;
+            let c = chords[j][i];
+            if (typeof c === 'string' || c instanceof String) {
+                chord += chords[j][i] + "-";
+            }
+        }
+        chord = chord.slice(0, -1);
+        chordName = chords[0][i];
+        // console.log(chord, chordName);
+        if (chord != "") {
+            addChordToSequence(chordName, chord);
+        }
+    }
+}
+
+function importSequenceContent(content) {
+    let lines = content.split('\n');
+    if (lines.length == 0) {
+        showError();
+        return;
+    }
+   
+    console.log(lines);
+    importChords(lines);
+}
+
 function importSequence() {
     // Create a hidden input element
     let input = document.createElement('input');
@@ -545,44 +612,14 @@ function importSequence() {
         fetch(URL.createObjectURL(file))
             .then(response => response.text())
             .then(fileContent => {
-                // Split the content into an array of lines
-                let lines = fileContent.split('\n');
-                if (lines.length == 0) {
-                    showError();
-                    return;
-                }
-                for (let i = 0; i < lines.length; i++) {
-                    lines[i] = lines[i].split("-");
-                    lines[i] = lines[i].filter(l => l != "");
-                }
-
-                lines = lines.filter(line => line.length > 0);
-                
-                console.log(lines);
-                for (let i = 0; i < lines[0].length; i++) {
-                    let chord = "";
-                    let chordName = "";
-                    for (let j = 1; j < lines.length; j++) {
-                        if (lines[j][0] == '') continue;
-                        let c = lines[j][i];
-                        if (typeof c === 'string' || c instanceof String) {
-                            chord += lines[j][i] + "-";
-                        }
-                    }
-                    chord = chord.slice(0, -1);
-                    chordName = lines[0][i];
-                    // console.log(chord, chordName);
-                    if (chord != "") {
-                        addChordToSequence(chordName, chord);
-                    }
-                }
+                importSequenceContent(fileContent);
             });
     });
 
     input.click();
 }
 
-function exportSequence() {
+function getSequence() {
     let sequence = document.getElementById("sequenceContainer");
     let exportSeq = ["", "", "", "", "", "", ""];
     for (let i = 0; i < sequence.children.length; i++) {
@@ -597,6 +634,11 @@ function exportSequence() {
     }
     
     exportSeq = exportSeq.map(s => s.slice(0, -1));
+    return exportSeq;
+}
+
+function exportSequence() {
+    exportSeq = getSequence();
     if (exportSeq[0] != "") {
         console.log(exportSeq);
         downloadChord(exportSeq);
@@ -605,16 +647,19 @@ function exportSequence() {
     }
 }
 
-function downloadChord(chord) {
+function getTextContent(content) {
     let text = ""
 
-    for (let i = 0; i < chord.length; i++) {
-        text += chord[i] + "\n";
+    for (let i = 0; i < content.length; i++) {
+        text += content[i] + "\n";
     }
 
-    // Encode the text content
-    let encodedContent = encodeURIComponent(text);
+    return text;
+}
 
+function downloadChord(content) {
+    console.log(getTextContent(content));
+    encodedContent = encodeURIComponent(getTextContent(content));
     // Create a data URI
     let dataUri = 'data:text/plain;charset=utf-8,' + encodedContent;
 
@@ -759,4 +804,30 @@ function submitPasswordChange() {
 
 
     hideChangePasswordModal();
+}
+
+function shareSequence() {
+    let seq = getSequence();
+    let req = {
+        "sequence": JSON.stringify(seq)
+    }
+    console.log(req);
+    fetch(path + '/api/chords/saveSequence.php', {
+        method: 'POST',
+        body: JSON.stringify(req)
+    })
+    .then(response => response.text())
+    .then(response => JSON.parse(response))
+    .then(data => {
+        console.log(data);
+        if (data.success) {
+            let url = new URL(window.location.href);
+            url.searchParams.set('sequenceID', data.sequenceID);
+        
+            window.open(url.toString(), '_blank');
+        }
+    })
+    .catch(error => {
+        console.log('Error:', error);
+    });
 }

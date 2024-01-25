@@ -21,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $connection = $db->getConnection();
     $stmt = $connection->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)");
     $ok = $stmt->execute([$username, $email, $password, 1]);
-    file_put_contents("test.txt", $ok);
     if (!$ok) {
         $res->success = false;
         $res->message = 'Error saving user';

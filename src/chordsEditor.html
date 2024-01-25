@@ -205,14 +205,13 @@
     </div>
 </div>
 
-<div class="base unselectable" id="sequenceContainer"></div>
-  
 <div id="buttonContainer" class="unselectable">
   <button id="openModalBtn" class="btn">Add chord</button>
   <button class="btn" onclick="playSequence()">Play Sequence</button>
   <button class="btn" onclick="clearSequence()">Clear Sequence</button>
   <button class="btn" onclick="exportSequence()">Export Sequence</button>
   <button class="btn" onclick="importSequence()">Import Sequence</button>
+  <button class="btn" onclick="shareSequence()">Share Sequence</button>
   <input class="interval" placeholder="interval" type="number" name="interval" id="interval">
   <div class="loopContainer" onclick="toggle()">
       <input type="checkbox" id="loop">
@@ -225,6 +224,9 @@
       </span>
   </div>
 </div>
+
+<div class="base unselectable" id="sequenceContainer"></div>
+  
 
 <div id="myModal" class="modal">
   <div class="modal-content">

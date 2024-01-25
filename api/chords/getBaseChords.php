@@ -1,10 +1,11 @@
 <?php
 require_once '../db/db.php';
-require_once '../auth/checkSession.php';
+// require_once '../auth/checkSession.php';
 
 $res = new stdClass();
 
-if (isset($_SESSION['userID'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+// if ($isset($_SESSION['userID'])) {
     $db = new Db();
     $connection = $db->getConnection();
 
@@ -22,7 +23,7 @@ if (isset($_SESSION['userID'])) {
     }
 } else {
     $res->success = false;
-    $res->message = "User not logged in";
+    $res->message = "Invalid request";
 }
 
 echo json_encode($res);
