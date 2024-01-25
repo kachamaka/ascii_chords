@@ -91,7 +91,7 @@ function logout() {
             isLogged = false;
             setTimeout(() => {
                 loadView();
-                // document.location.href = path;
+                document.location.href = path;
             }, 1000);
         }
     })
@@ -831,6 +831,10 @@ function submitPasswordChange() {
 
 function shareSequence() {
     let seq = getSequence();
+    if (seq[0].length == 0) {
+        showError("Empty sequence");
+        return;
+    }
     let req = {
         "sequence": JSON.stringify(seq)
     }
