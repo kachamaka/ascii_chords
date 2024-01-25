@@ -2,6 +2,7 @@ const guitarMapping = ["e","a","d","g","b","f"];
 const chordIdentifier = "seq_chord";
 const chordNameIdentifier = "seq_chord_name";
 const userIDIdentifier = "user_id";
+const DEFAULT_INTERVAL = 1000;
 const host = "http://localhost";
 var path = host;
 
@@ -312,14 +313,14 @@ function deleteChord(card) {
     document.getElementById('cardContainer').removeChild(card);
 }
 
-function addChordToSequence(name, chord) {
+function addChordToSequence(name, chord, interval) {
     if (name == null || chord == null || name == "" || chord == "") return;
     // console.log(name, chord);
     let chordCard = document.createElement('div');
     chordCard.className = 'chordCard';
-    chordCard.onclick = function() {
-        document.getElementById('sequenceContainer').removeChild(chordCard);
-    }
+    // chordCard.onclick = function() {
+    //     document.getElementById('sequenceContainer').removeChild(chordCard);
+    // }
     
     let nameElement = document.createElement('h2');
     nameElement.innerText = name;
@@ -327,8 +328,29 @@ function addChordToSequence(name, chord) {
     let playElement = document.createElement('p');
     playElement.innerText = chord;
 
+    let removeButton = document.createElement('span');
+    removeButton.className = 'removeButton';
+    removeButton.innerText = 'X';
+    removeButton.onclick = function() {
+        document.getElementById('sequenceContainer').removeChild(chordCard);
+    };
+
+    let chordInterval = document.createElement('input');
+    chordInterval.setAttribute("class", "interval");
+    chordInterval.setAttribute("placeholder", "interval");
+    chordInterval.setAttribute("type", "number");
+    if (interval && interval != DEFAULT_INTERVAL) {
+        chordInterval.value = interval;
+    }
+    // chordInterval.setAttribute("name", "interval");
+    // chordInterval.setAttribute("id", "interval");
+    // chordInterval.innerText = chord;
+    // <input class="interval" placeholder="interval" type="number" name="interval" id="interval">
+
     chordCard.appendChild(nameElement);
     chordCard.appendChild(playElement);
+    chordCard.appendChild(removeButton);
+    chordCard.appendChild(chordInterval);
     // chordCard.textContent = name;
     chordCard.setAttribute(chordIdentifier, chord);
     chordCard.setAttribute(chordNameIdentifier, name);
@@ -353,10 +375,8 @@ async function playSequence() {
     let sequence = document.getElementById('sequenceContainer').childNodes;
     if (!sequence.length) return;
 
-    let interval = document.getElementById('interval').value;
-    if (!interval) interval = 1000;
-
     for (let i = 0; i < sequence.length; i++) {
+        let interval = Array.from(sequence[i].childNodes).filter(child => child.nodeName.toLowerCase() === 'input')[0].value || DEFAULT_INTERVAL;
         let chord = sequence[i].getAttribute(chordIdentifier);
         playGuitarChord(chord);
         await new Promise(resolve => setTimeout(resolve, interval));
@@ -561,28 +581,32 @@ function addChord() {
 }
 
 function importChords(chords) {
+    console.log(chords);
+
     for (let i = 0; i < chords.length; i++) {
         chords[i] = chords[i].split("-");
         chords[i] = chords[i].filter(l => l != "");
     }
 
+    console.log(chords);
     chords = chords.filter(line => line.length > 0);
 
     for (let i = 0; i < chords[0].length; i++) {
         let chord = "";
         let chordName = "";
-        for (let j = 1; j < chords.length; j++) {
+        for (let j = 2; j < chords.length; j++) {
             if (chords[j][0] == '') continue;
             let c = chords[j][i];
             if (typeof c === 'string' || c instanceof String) {
                 chord += chords[j][i] + "-";
             }
         }
-        chord = chord.slice(0, -1);
         chordName = chords[0][i];
-        // console.log(chord, chordName);
+        interval = chords[1][i];
+        chord = chord.slice(0, -1);
+        // console.log(chord, chordName, interval);
         if (chord != "") {
-            addChordToSequence(chordName, chord);
+            addChordToSequence(chordName, chord, interval);
         }
     }
 }
@@ -593,8 +617,6 @@ function importSequenceContent(content) {
         showError();
         return;
     }
-   
-    console.log(lines);
     importChords(lines);
 }
 
@@ -621,16 +643,17 @@ function importSequence() {
 
 function getSequence() {
     let sequence = document.getElementById("sequenceContainer");
-    let exportSeq = ["", "", "", "", "", "", ""];
+    let exportSeq = ["", "", "", "", "", "", "", ""]; //name, intervals, 6 strings
     for (let i = 0; i < sequence.children.length; i++) {
         let chord = sequence.children[i].getAttribute(chordIdentifier);
         let name = sequence.children[i].getAttribute(chordNameIdentifier);
-        // console.log("ch", chord, name);
+        let interval = Array.from(sequence.children[i].childNodes).filter(child => child.nodeName.toLowerCase() === 'input')[0].value || DEFAULT_INTERVAL;
         chord = chord.split("-");
         for (let j = 0; j < chord.length; j++) {
-            exportSeq[j+1] += chord[j] + "-";
+            exportSeq[j+2] += chord[j] + "-";
         }
         exportSeq[0] += name + "-";
+        exportSeq[1] += interval + "-";
     }
     
     exportSeq = exportSeq.map(s => s.slice(0, -1));

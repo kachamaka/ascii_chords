@@ -364,3 +364,11 @@ button:hover {
 #submitPasswordChange:hover {
     background-color: #217dbb;
 }
+
+.removeButton {
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+}
