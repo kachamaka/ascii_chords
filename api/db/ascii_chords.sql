@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 23, 2024 at 03:03 PM
+-- Generation Time: Jan 26, 2024 at 07:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -171,6 +171,30 @@ INSERT INTO `roles` (`ID`, `role`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sequences`
+--
+
+CREATE TABLE `sequences` (
+  `ID` int(11) NOT NULL,
+  `content` mediumtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `sequences`
+--
+
+INSERT INTO `sequences` (`ID`, `content`) VALUES
+(4, '[\"Am-A7\",\"x-x\",\"0-0\",\"2-2\",\"2-0\",\"1-2\",\"0-0\"]'),
+(6, '[\"A7-Am\",\"x-x\",\"0-0\",\"2-2\",\"0-2\",\"2-1\",\"0-0\"]'),
+(7, '[\"A7-Am\",\"x-x\",\"0-0\",\"2-2\",\"0-2\",\"2-1\",\"0-0\"]'),
+(8, '[\"A7-A-Am\",\"x-x-x\",\"0-0-0\",\"2-2-2\",\"0-2-2\",\"2-2-1\",\"0-0-0\"]'),
+(10, '[\"A7-D9-A7-D9-A7-Empty-A9-D12-A9-D12-A9-Empty-A5-D7-A5-D7-A5-Empty-A3-D5-A3-D5-A3-Empty-A3-D5-A3-D5-A3-Empty-A5-D7-A5-D7-A5-Empty-A7-D9-A7-D9-A7-Empty-A7-D9-A7-D9-A7-Empty-A7-D9-A7-D9-A7-Empty-A9-D12-A9-D12-A9-Empty-A5-D7-A5-D7-A5-Empty-A0-D2-A0-D2-A0-Empty-A3-D5-A3-D5-A3-Empty-A5-D7-A5-D7-A5-Empty-A7-D9-A7-D9-A7-Empty-A7-D9-A7-D9-A7-Empty\",\"x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x\",\"7-x-7-x-7-x-9-x-9-x-9-x-5-x-5-x-5-x-3-x-3-x-3-x-3-x-3-x-3-x-5-x-5-x-5-x-7-x-7-x-7-x-7-x-7-x-7-x-7-x-7-x-7-x-9-x-9-x-9-x-5-x-5-x-5-x-0-x-0-x-0-x-3-x-3-x-3-x-5-x-5-x-5-x-7-x-7-x-7-x-7-x-7-x-7-x\",\"x-9-x-9-x-x-x-12-x-12-x-x-x-7-x-7-x-x-x-5-x-5-x-x-x-5-x-5-x-x-x-7-x-7-x-x-x-9-x-9-x-x-x-9-x-9-x-x-x-9-x-9-x-x-x-12-x-12-x-x-x-7-x-7-x-x-x-2-x-2-x-x-x-5-x-5-x-x-x-7-x-7-x-x-x-9-x-9-x-x-x-9-x-9-x-x\",\"x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x\",\"x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x\",\"x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x\"]'),
+(12, '[\"D2-G0-G2-G2-G2-B0-B1-B1-B1-B3-B0-B0-G2-G0-G2-D2-G0-G2-G2-G2-B0-B1-B1-B1-B3-B0-B0-G2-G0-G2-D2-G0-G2-G2-G2-B1-B3-B3-B3-E0-E1-E1-E0-B3-E0-G2-G2-B0-B1-B1-B3-E0-G2-G2-B1-B0-B0-B1-G2-B0-D2-G0-G2-G2-G2-B0-B1-B1-B1-B3-B0-B0-G2-G0-G2-D2-G0-G2-G2-G2-B0-B1-B1-B1-B3-B0-B0-G2-G0-G2-D2-G0-G2-G2-G2-B1-B3-B3-B3-E0-E1-E1-E0-B3-E0-G2-G2-B0-B1-B1-B3-E0-G2-G2-B1-B0-B0-G2-G0-G2\",\"100-100-200-200-100-100-200-200-100-100-200-200-100-200-400-100-100-200-200-100-100-200-200-100-100-200-200-100-200-400-100-100-200-200-100-100-200-200-100-100-200-200-100-100-200-300-100-100-200-200-200-100-400-100-100-200-200-100-200-500-100-100-200-200-100-100-200-200-100-100-200-200-100-200-400-100-100-200-200-100-100-200-200-100-100-200-200-100-200-400-100-100-200-200-100-100-200-200-100-100-200-200-100-100-200-300-100-100-200-200-200-100-400-100-100-200-200-100-200-400\",\"x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x\",\"x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x\",\"2-x-x-x-x-x-x-x-x-x-x-x-x-x-x-2-x-x-x-x-x-x-x-x-x-x-x-x-x-x-2-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-2-x-x-x-x-x-x-x-x-x-x-x-x-x-x-2-x-x-x-x-x-x-x-x-x-x-x-x-x-x-2-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x\",\"x-0-2-2-2-x-x-x-x-x-x-x-2-0-2-x-0-2-2-2-x-x-x-x-x-x-x-2-0-2-x-0-2-2-2-x-x-x-x-x-x-x-x-x-x-2-2-x-x-x-x-x-2-2-x-x-x-x-2-x-x-0-2-2-2-x-x-x-x-x-x-x-2-0-2-x-0-2-2-2-x-x-x-x-x-x-x-2-0-2-x-0-2-2-2-x-x-x-x-x-x-x-x-x-x-2-2-x-x-x-x-x-2-2-x-x-x-2-0-2\",\"x-x-x-x-x-0-1-1-1-3-0-0-x-x-x-x-x-x-x-x-0-1-1-1-3-0-0-x-x-x-x-x-x-x-x-1-3-3-3-x-x-x-x-3-x-x-x-0-1-1-3-x-x-x-1-0-0-1-x-0-x-x-x-x-x-0-1-1-1-3-0-0-x-x-x-x-x-x-x-x-0-1-1-1-3-0-0-x-x-x-x-x-x-x-x-1-3-3-3-x-x-x-x-3-x-x-x-0-1-1-3-x-x-x-1-0-0-x-x-x\",\"x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-0-1-1-0-x-0-x-x-x-x-x-x-0-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-0-1-1-0-x-0-x-x-x-x-x-x-0-x-x-x-x-x-x-x-x\"]'),
+(15, '[\"D2-G0-G2-G2-G2-B0-B1-B1-B1-B3-B0-B0-G2-G0-G2\",\"100-100-200-200-100-100-200-200-100-100-200-200-100-200-400\",\"x-x-x-x-x-x-x-x-x-x-x-x-x-x-x\",\"x-x-x-x-x-x-x-x-x-x-x-x-x-x-x\",\"2-x-x-x-x-x-x-x-x-x-x-x-x-x-x\",\"x-0-2-2-2-x-x-x-x-x-x-x-2-0-2\",\"x-x-x-x-x-0-1-1-1-3-0-0-x-x-x\",\"x-x-x-x-x-x-x-x-x-x-x-x-x-x-x\"]');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -229,6 +253,12 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `sequences`
+--
+ALTER TABLE `sequences`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -257,6 +287,12 @@ ALTER TABLE `chords`
 --
 ALTER TABLE `roles`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `sequences`
+--
+ALTER TABLE `sequences`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `users`
